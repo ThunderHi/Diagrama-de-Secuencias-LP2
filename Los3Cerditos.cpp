@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 // Clase abstracta Personaje
@@ -8,10 +9,12 @@ protected:
     string nombre;
     string animal;
 public:
+    //Constructor
     Personaje(string nombre, string animal) : nombre(nombre), animal(animal) {}
     string getNombre() {
         return nombre;
     }
+    //Metodos virtuales
     virtual void cantar() = 0;
     virtual void escapar() = 0;
 };
@@ -21,6 +24,7 @@ class Cosa {
 protected:
     string nombre;
 public:
+    //Constructor
     Cosa(string nombre) : nombre(nombre) {}
 };
 
@@ -29,14 +33,15 @@ class Casa : public Cosa {
 private:
     string tipo;
 public:
-    //Constructor de Casa
+    //Constructor
     Casa(string nombre, string tipo) : Cosa(nombre), tipo(tipo) {}
 
     void destruir() {
         cout << "La casa de " << tipo << " ha sido destruida.\n";
         tipo = "destruida";
     }
-    void entrar(Personaje* personaje) {
+
+    void entrar(Personaje* personaje) { //Recibe un objeto como parametro
         cout << personaje->getNombre() << " entra en la casa de " << tipo << ".\n";
     }
 
@@ -52,19 +57,20 @@ public:
 // Clase Cerdito heredando de Personaje
 class Cerdito : public Personaje {
 private:
-    Casa* casa;
+    Casa* casa;     //Agregacion de Casa
 public:
+    //Constructor
     Cerdito(string nombre, string animal, Casa* casa) : Personaje(nombre, animal), casa(casa) {}
 
-    void cantar() override {
+    void cantar() override {    //sobreescritura de metodos
         cout << nombre << " el " << animal << " canta felizmente.\n";
     }
 
-    void escapar() override {
+    void escapar() override {   //sobreescritura de metodos
         cout << nombre << " corre a la siguiente casa.\n";
     }
 
-    void construir(string tipoCasa) {
+    void construir(string tipoCasa) {   //sobreescritura de metodos
         cout << nombre << " construye una casa de " << tipoCasa << ".\n";
         casa->setTipo(tipoCasa);
     }
@@ -73,10 +79,12 @@ public:
 // Clase Lobo heredando de Personaje
 class Lobo : public Personaje {
 public:
+    //constructor
     Lobo(string nombre, string animal) : Personaje(nombre, animal) {}
 
-    void soplar(Casa* casa) {
+    void soplar(Casa* casa) {   //objeto casa como parámetro
         cout << nombre << " intenta soplar la casa de " << casa->getTipo() << ".\n";
+        //metodo destruir de casa en caso tipo sea distinto de ladrillo
         if (casa->getTipo() != "ladrillos") {
             casa->destruir();
         } else {
@@ -84,11 +92,11 @@ public:
         }
     }
 
-    void cantar() override {
+    void cantar() override {    //sobreescritura de metodos
         cout << nombre << " canta de forma amenazadora.\n";
     }
 
-    void escapar() override {
+    void escapar() override {   //sobreescritura de metodos
         cout << nombre << " huye frustrado.\n";
     }
 };
@@ -129,6 +137,9 @@ int main() {
 
     //Lobo no puede destruirlo y se vá
     lobo.escapar();
+    cerdito1.cantar();
+    cerdito2.cantar();
+    cerdito3.cantar();
 
     return 0;
 }
